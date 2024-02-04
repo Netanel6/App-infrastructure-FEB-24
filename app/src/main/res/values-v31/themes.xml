@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.CustomSplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_exam</item>
+        <item name="postSplashScreenTheme">@style/Theme.HomeTest</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_home_test</item>
+    </style>
+</resources>

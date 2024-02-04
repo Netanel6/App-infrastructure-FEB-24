@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.HomeTest" parent="Theme.Material3.DayNight.NoActionBar"/>
+
+
+    <style name="Theme.CustomSplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_exam</item>
+        <item name="postSplashScreenTheme">@style/Theme.HomeTest</item>
+        <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">@drawable/ic_home_test</item>
+    </style>
+
+</resources>
