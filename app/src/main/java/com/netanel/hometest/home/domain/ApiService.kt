@@ -9,6 +9,6 @@ import retrofit2.http.GET
  * NetanelCA2@gmail.com
  */
 interface ApiService {
-    @GET("cha vracter")
+    @GET("character")
     suspend fun getCharacters(): Response<Characters>
 }
