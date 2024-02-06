@@ -24,8 +24,6 @@ class HomeViewModel
         private val vmDataResult = MutableLiveData<DataState<Characters?>>()
         val dataResult: MutableLiveData<DataState<Characters?>> by lazy { vmDataResult }
 
-        // TODO: Fix shit here
-
         fun getCharacters() {
             dataResult.postValue(DataState.Loading)
             viewModelScope.launch(Dispatchers.IO) {

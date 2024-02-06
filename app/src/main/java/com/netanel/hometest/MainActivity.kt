@@ -1,27 +1,24 @@
 package com.netanel.hometest
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.fragment.NavHostFragment
 import com.netanel.hometest.databinding.ActivityMainBinding
-import com.netanel.hometest.home.view.DataState
-import com.netanel.hometest.home.view.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
     lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     private var splashScreenStays = true
     private val delayTime = 800L
-
-    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splash = installSplashScreen()
@@ -29,30 +26,35 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        splash.setKeepOnScreenCondition { splashScreenStays }
         Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
+        splash.setKeepOnScreenCondition { splashScreenStays }
 
-        getCharacter()
-        // Move to FragmentHome
-        viewModel.dataResult.observe(this) {
-            when (it) {
-                DataState.Loading -> {
-                    findViewById<ProgressBar>(R.id.progressBar).visibility = View.VISIBLE
-                }
-                is DataState.Success -> {
-                    findViewById<ProgressBar>(R.id.progressBar).visibility = View.GONE
-                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
-                }
-
-                is DataState.Error -> {
-                    findViewById<ProgressBar>(R.id.progressBar).visibility = View.GONE
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        initializeNavController()
     }
 
-    private fun getCharacter() {
-        viewModel.getCharacters()
+    private fun initializeNavController() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        navController.addOnDestinationChangedListener(this)
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?,
+    ) { }
+
+    @SuppressLint("MissingSuperCall")
+    @Deprecated(
+        "Deprecated in Java",
+        ReplaceWith("super.onBackPressed()", "androidx.appcompat.app.AppCompatActivity"),
+    )
+    override fun onBackPressed() {
+        val currentFragment = navController.currentDestination?.id
+        /*if (currentFragment == R.id.someFragment) {
+            super.onBackPressed()
+        }*/
     }
 }
