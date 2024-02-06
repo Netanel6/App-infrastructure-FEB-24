@@ -1,5 +1,6 @@
 package com.netanel.hometest.domain
 
+import com.netanel.hometest.domain.interceptors.LoggingInterceptor
 import com.netanel.hometest.utils.Logger
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -33,9 +34,7 @@ object RetrofitInstance {
             },
         )
 
-        okHttpClient?.interceptors()
-        // Used for logging responses (Using ResponseExtensions.kt instead)
-//            ?.add(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        okHttpClient?.interceptors()?.add(LoggingInterceptor())
 
         val client: OkHttpClient? = okHttpClient?.build()
         val builder: Retrofit.Builder? =
