@@ -3,16 +3,21 @@ package com.netanel.hometest
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
+import com.netanel.hometest.databinding.ActivityMainBinding
+import com.netanel.hometest.home.view.DataState
 import com.netanel.hometest.home.view.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
+
     private var splashScreenStays = true
     private val delayTime = 800L
 
@@ -21,17 +26,33 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splash = installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         splash.setKeepOnScreenCondition { splashScreenStays }
         Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
 
-        // TODO: Move logic  to FragmentHome
         getCharacter()
+        // Move to FragmentHome
+        viewModel.dataResult.observe(this) {
+            when (it) {
+                DataState.Loading -> {
+                    findViewById<ProgressBar>(R.id.progressBar).visibility = View.VISIBLE
+                }
+                is DataState.Success -> {
+                    findViewById<ProgressBar>(R.id.progressBar).visibility = View.GONE
+                    Toast.makeText(this, it.data.toString(), Toast.LENGTH_SHORT).show()
+                }
+
+                is DataState.Error -> {
+                    findViewById<ProgressBar>(R.id.progressBar).visibility = View.GONE
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun getCharacter() {
-        lifecycleScope.launch {
-            viewModel.getCharacters()
-        }
+        viewModel.getCharacters()
     }
 }
