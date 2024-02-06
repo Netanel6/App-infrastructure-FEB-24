@@ -1,37 +1,60 @@
 package com.netanel.hometest
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
-import com.netanel.hometest.home.view.HomeViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.fragment.NavHostFragment
+import com.netanel.hometest.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
+    lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
     private var splashScreenStays = true
     private val delayTime = 800L
-
-    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splash = installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        splash.setKeepOnScreenCondition { splashScreenStays }
-        Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // TODO: Move logic  to FragmentHome
-        getCharacter()
+        Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
+        splash.setKeepOnScreenCondition { splashScreenStays }
+
+        initializeNavController()
     }
 
-    private fun getCharacter() {
-        lifecycleScope.launch {
-            viewModel.getCharacters()
-        }
+    private fun initializeNavController() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        navController.addOnDestinationChangedListener(this)
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?,
+    ) { }
+
+    @SuppressLint("MissingSuperCall")
+    @Deprecated(
+        "Deprecated in Java",
+        ReplaceWith("super.onBackPressed()", "androidx.appcompat.app.AppCompatActivity"),
+    )
+    override fun onBackPressed() {
+        val currentFragment = navController.currentDestination?.id
+        /*if (currentFragment == R.id.someFragment) {
+            super.onBackPressed()
+        }*/
     }
 }
