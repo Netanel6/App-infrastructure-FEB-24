@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.netanel.hometest.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -32,20 +34,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCharacters() {
-        viewModel.getCharacters()
-        viewModel.dataResult.observe(viewLifecycleOwner) {
-            when (it) {
-                DataState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                is DataState.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.textView.text = it.data.toString()
-                }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCharacters()
+            viewModel.dataResult.collect {
+                when (it) {
+                    DataState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
 
-                is DataState.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.textView.text = it.message
+                    is DataState.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.textView.text = it.data.toString()
+                    }
+
+                    is DataState.Error -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.textView.text = it.message
+                    }
                 }
             }
         }
