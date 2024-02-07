@@ -1,8 +1,8 @@
 package com.netanel.hometest.home.repository
 
-import com.netanel.hometest.domain.Result
-import com.netanel.hometest.domain.toData
-import com.netanel.hometest.home.domain.ApiService
+import com.netanel.hometest.domain.mappers.ResponseToDataMapper
+import com.netanel.hometest.domain.model.Result
+import com.netanel.hometest.home.domain.HomeApiService
 import com.netanel.hometest.home.model.Characters
 import javax.inject.Inject
 
@@ -16,6 +16,12 @@ interface HomeRepository {
 
 class HomeRepositoryImpl
     @Inject
-    constructor(private val networkManager: ApiService) : HomeRepository {
-        override suspend fun getCharacters(): Result<Characters?> = networkManager.getCharacters().toData()
+    constructor(
+        private val networkManager: HomeApiService,
+        private val responseMapper: ResponseToDataMapper<Characters>,
+    ) : HomeRepository {
+        override suspend fun getCharacters(): Result<Characters?> {
+            val response = networkManager.getCharacters()
+            return responseMapper.map(response)
+        }
     }

@@ -1,4 +1,4 @@
-package com.netanel.hometest.domain
+package com.netanel.hometest.domain.model
 
 /**
  * Created by netanelamar on 01/01/24.
@@ -7,6 +7,7 @@ package com.netanel.hometest.domain
 
 import retrofit2.Response
 
+// Not in use
 fun <T> Response<T>.toData(): Result<T?> {
     return try {
         if (isSuccessful) {

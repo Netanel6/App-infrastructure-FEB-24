@@ -1,4 +1,4 @@
-package com.netanel.hometest.domain
+package com.netanel.hometest.domain.model
 
 /**
  * Created by netanelamar on 01/01/24.
