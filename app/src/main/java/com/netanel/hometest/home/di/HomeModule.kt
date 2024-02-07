@@ -1,6 +1,8 @@
 package com.netanel.hometest.home.di
 
-import com.netanel.hometest.home.domain.ApiService
+import com.netanel.hometest.domain.mappers.ResponseToDataMapper
+import com.netanel.hometest.home.domain.HomeApiService
+import com.netanel.hometest.home.model.Characters
 import com.netanel.hometest.home.repository.HomeRepository
 import com.netanel.hometest.home.repository.HomeRepositoryImpl
 import com.netanel.hometest.home.useCase.GetCharactersUseCase
@@ -16,13 +18,23 @@ import javax.inject.Singleton
  * Created by netanelamar on 01/01/24.
  * NetanelCA2@gmail.com
  */
+
 @Module
 @InstallIn(SingletonComponent::class)
 object HomeModule {
     @Singleton
     @Provides
-    fun provideHomeRepository(apiService: ApiService): HomeRepository {
-        return HomeRepositoryImpl(apiService)
+    fun provideResponseMapper(): ResponseToDataMapper<Characters> {
+        return ResponseToDataMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun provideHomeRepository(
+        apiService: HomeApiService,
+        responseMapper: ResponseToDataMapper<Characters>,
+    ): HomeRepository {
+        return HomeRepositoryImpl(apiService, responseMapper)
     }
 
     @Module

@@ -1,6 +1,7 @@
 package com.netanel.hometest.domain
 
 import com.netanel.hometest.domain.interceptors.LoggingInterceptor
+import com.netanel.hometest.domain.model.NetworkUtils
 import com.netanel.hometest.utils.Logger
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

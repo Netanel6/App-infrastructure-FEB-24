@@ -2,7 +2,7 @@ package com.netanel.hometest.home.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.netanel.hometest.domain.Result
+import com.netanel.hometest.domain.model.Result
 import com.netanel.hometest.home.model.Characters
 import com.netanel.hometest.home.useCase.GetCharactersUseCase
 import com.netanel.hometest.utils.Logger

@@ -1,6 +1,7 @@
-package com.netanel.hometest.domain
+package com.netanel.hometest.domain.di
 
-import com.netanel.hometest.home.domain.ApiService
+import com.netanel.hometest.domain.RetrofitInstance
+import com.netanel.hometest.home.domain.HomeApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,7 @@ object DomainModule {
 
     @Singleton
     @Provides
-    fun provideNetworkManager(retrofitInstance: RetrofitInstance): ApiService {
-        return retrofitInstance.create(ApiService::class.java)
+    fun provideNetworkManager(retrofitInstance: RetrofitInstance): HomeApiService {
+        return retrofitInstance.create(HomeApiService::class.java)
     }
 }
