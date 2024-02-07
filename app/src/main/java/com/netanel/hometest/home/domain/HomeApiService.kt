@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 /**
- * Created by netanelamar on 01/01/24.
+ * Created by netanelamar on 01/01/2024.
  * NetanelCA2@gmail.com
  */
 interface HomeApiService {

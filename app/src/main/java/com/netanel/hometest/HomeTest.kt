@@ -4,7 +4,7 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 /**
- * Created by netanelamar on 01/01/24.
+ * Created by netanelamar on 01/01/2024.
  * NetanelCA2@gmail.com
  */
 @HiltAndroidApp

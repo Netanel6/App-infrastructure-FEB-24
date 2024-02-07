@@ -1,10 +1,9 @@
 package com.netanel.hometest.domain.model
 
 /**
- * Created by netanelamar on 01/01/24.
+ * Created by netanelamar on 01/01/2024.
  * NetanelCA2@gmail.com
  */
-
 import retrofit2.Response
 
 // Not in use

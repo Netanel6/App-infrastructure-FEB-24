@@ -5,6 +5,10 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.ResponseBody.Companion.toResponseBody
 
+/**
+ * Created by netanelamar on 01/01/2024.
+ * NetanelCA2@gmail.com
+ */
 class LoggingInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
         val request: Request = chain.request()
