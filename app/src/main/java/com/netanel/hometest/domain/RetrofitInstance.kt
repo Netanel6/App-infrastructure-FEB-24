@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
- * Created by Netanel Amar on 01/01/24.
+ * Created by Netanel Amar on 01/01/2024.
  * NetanelCA2@gmail.com
  */
 object RetrofitInstance {

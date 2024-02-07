@@ -8,7 +8,6 @@ import retrofit2.Response
  * Created by netanelamar on 07/02/2024.
  * NetanelCA2@gmail.com
  */
-
 class ResponseToDataMapper<T> : IMapper<Response<T>, Result<T?>> {
     override fun map(response: Response<T>): Result<T?> {
         return try {

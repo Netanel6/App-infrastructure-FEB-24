@@ -15,11 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * Created by netanelamar on 01/01/24.
- * NetanelCA2@gmail.com
- */
-
 @HiltViewModel
 class HomeViewModel
     @Inject
