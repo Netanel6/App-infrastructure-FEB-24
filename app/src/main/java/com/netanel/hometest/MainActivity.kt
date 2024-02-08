@@ -12,6 +12,10 @@ import androidx.navigation.fragment.NavHostFragment
 import com.netanel.hometest.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Created by netanelamar on 01/01/2024.
+ * NetanelCA2@gmail.com
+ */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
     lateinit var binding: ActivityMainBinding

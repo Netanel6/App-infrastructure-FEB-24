@@ -22,6 +22,6 @@ object DomainModule {
     @Singleton
     @Provides
     fun provideNetworkManager(retrofitInstance: RetrofitInstance): HomeApiService {
-        return retrofitInstance.create(HomeApiService::class.java)
+        return retrofitInstance.create()
     }
 }
