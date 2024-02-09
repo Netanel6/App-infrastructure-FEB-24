@@ -19,19 +19,19 @@ import javax.inject.Inject
 class HomeViewModel
     @Inject
     constructor(private val useCase: GetCharactersUseCase) : ViewModel() {
-        private val vmDataResult = MutableStateFlow<DataState<Characters?>>(DataState.Loading)
-        val dataResult: StateFlow<DataState<Characters?>> by lazy { vmDataResult.asStateFlow() }
+        private val vmCharactersResult = MutableStateFlow<DataState<Characters?>>(DataState.Loading)
+        val charactersResult: StateFlow<DataState<Characters?>> by lazy { vmCharactersResult.asStateFlow() }
 
         fun getCharacters() {
             viewModelScope.launch(Dispatchers.IO) {
                 when (val result = useCase.invoke()) {
                     is Result.Success -> {
-                        vmDataResult.value = DataState.Success(result.data)
+                        vmCharactersResult.value = DataState.Success(result.data)
                         Logger.info("getCharacters success", result.data.toString())
                     }
 
                     is Result.Error -> {
-                        vmDataResult.value = DataState.Error(result.error.toString())
+                        vmCharactersResult.value = DataState.Error(result.error.toString())
                         Logger.info("getCharacters error", result.error.toString())
                     }
                 }

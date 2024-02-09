@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.netanel.hometest.databinding.FragmentHomeBinding
+import com.netanel.hometest.home.view.adapter.CharactersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -15,6 +17,8 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
+
+    private lateinit var characterAdapter: CharactersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,13 +34,22 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
         getCharacters()
+    }
+
+    private fun initRecyclerView() {
+        characterAdapter = CharactersAdapter()
+        binding.characterRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = characterAdapter
+        }
     }
 
     private fun getCharacters() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCharacters()
-            viewModel.dataResult.collect {
+            viewModel.charactersResult.collect {
                 when (it) {
                     DataState.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
@@ -44,12 +57,11 @@ class HomeFragment : Fragment() {
 
                     is DataState.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        binding.textView.text = it.data.toString()
+                        characterAdapter.submitList(it.data?.results)
                     }
 
                     is DataState.Error -> {
                         binding.progressBar.visibility = View.GONE
-                        binding.textView.text = it.message
                     }
                 }
             }
