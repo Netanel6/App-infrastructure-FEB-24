@@ -6,7 +6,7 @@ package com.netanel.hometest.domain.model
  */
 
 /**
- * Sealed class representing the result of network operations.
+ * Open class representing the result of network operations.
  */
 open class Result<out T> {
     // Represents a successful result containing data of type T

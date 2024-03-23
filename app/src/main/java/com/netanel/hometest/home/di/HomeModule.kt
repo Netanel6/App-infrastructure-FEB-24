@@ -1,5 +1,6 @@
 package com.netanel.hometest.home.di
 
+import com.netanel.hometest.domain.RetrofitInstance
 import com.netanel.hometest.domain.mappers.ResponseToDataMapper
 import com.netanel.hometest.home.domain.HomeApiService
 import com.netanel.hometest.home.model.Characters
@@ -25,6 +26,12 @@ object HomeModule {
     @Provides
     fun provideResponseMapper(): ResponseToDataMapper<Characters> {
         return ResponseToDataMapper()
+    }
+
+    @Singleton
+    @Provides
+    fun provideNetworkManager(retrofitInstance: RetrofitInstance): HomeApiService {
+        return retrofitInstance.create()
     }
 
     @Singleton

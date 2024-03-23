@@ -4,7 +4,6 @@ import com.netanel.hometest.domain.interceptors.LoggingInterceptor
 import com.netanel.hometest.domain.model.NetworkUtils
 import com.netanel.hometest.utils.Logger
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,10 +22,6 @@ object RetrofitInstance {
     // OkHttpClient instance for handling HTTP requests
     private val okHttpClient: OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val request: Request.Builder = chain.request().newBuilder()
-                chain.proceed(request.build())
-            }
             .addInterceptor(LoggingInterceptor())
             .build()
 

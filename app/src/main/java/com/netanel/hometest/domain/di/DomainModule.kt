@@ -1,7 +1,6 @@
 package com.netanel.hometest.domain.di
 
 import com.netanel.hometest.domain.RetrofitInstance
-import com.netanel.hometest.home.domain.HomeApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,12 +17,6 @@ object DomainModule {
     @Singleton
     @Provides
     fun provideRetrofitInstance() = RetrofitInstance
-
-    @Singleton
-    @Provides
-    fun provideNetworkManager(retrofitInstance: RetrofitInstance): HomeApiService {
-        return retrofitInstance.create()
-    }
 }
 
 // Simple retrofit implementation use instead of RetrofitInstance.kt
